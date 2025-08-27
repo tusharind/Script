@@ -231,3 +231,52 @@ class CollectionVC: UIViewController, UICollectionViewDataSource, UICollectionVi
         
     }
 
+func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "header",
+                for: indexPath
+            )
+            header.backgroundColor = .lightGray
+            header.subviews.forEach { $0.removeFromSuperview() }
+                    
+                    // Add a label
+                    let label = UILabel(frame: header.bounds)
+                    label.textAlignment = .center
+                    label.font = .boldSystemFont(ofSize: 16)
+                    label.text = "📌 Section \(indexPath.section + 1) Header"
+                    header.addSubview(label)
+                    
+                 
+            return header
+        } else if kind == UICollectionView.elementKindSectionFooter {
+            let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "footer",
+                for: indexPath
+            )
+            footer.backgroundColor = .darkGray
+            return footer
+        }
+        return UICollectionReusableView()
+    }
+
+    // 2. Size for header
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
+
+    // 3. Size for footer
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 30)
+    }
+
+}
+
